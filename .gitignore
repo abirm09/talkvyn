@@ -1,0 +1,20 @@
+# Dependencies
+node_modules/
+
+# Turbo
+.turbo/
+
+# Build output
+dist/
+build/
+.next/
+out/
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Logs and local files
+*.log
+.DS_Store
