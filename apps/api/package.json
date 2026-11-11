@@ -1,0 +1,59 @@
+{
+  "name": "@talkvyn/api",
+  "version": "0.1.0",
+  "description": "Talkvyn's self-hosted AI assistant API",
+  "author": "Talkvyn contributors",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "files": [
+    "dist/**"
+  ],
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "scripts": {
+    "build": "pnpm --filter @talkvyn/env build && pnpm --filter @talkvyn/database build && nest build",
+    "dev": "pnpm --filter @talkvyn/env build && pnpm --filter @talkvyn/database build && nest start --watch",
+    "start": "pnpm --filter @talkvyn/env build && pnpm --filter @talkvyn/database build && nest start",
+    "start:dev": "pnpm --filter @talkvyn/env build && pnpm --filter @talkvyn/database build && nest start --watch",
+    "start:debug": "pnpm --filter @talkvyn/env build && pnpm --filter @talkvyn/database build && nest start --debug --watch",
+    "start:prod": "node dist/main.js",
+    "lint": "oxlint --type-aware src/ --deny-warnings",
+    "check-types": "pnpm --filter @talkvyn/env build && pnpm --filter @talkvyn/database build && tsc --noEmit -p tsconfig.build.json",
+    "test": "vitest run --passWithNoTests",
+    "test:watch": "vitest",
+    "test:cov": "vitest run --coverage --passWithNoTests",
+    "test:debug": "vitest --inspect-brk --no-file-parallelism",
+    "test:e2e": "vitest run --config ./vitest.config.e2e.ts --passWithNoTests",
+    "clean": "rm -rf dist *.tsbuildinfo"
+  },
+  "dependencies": {
+    "@nestjs/common": "12.4.2",
+    "@nestjs/config": "12.1.1",
+    "@nestjs/core": "12.4.2",
+    "@nestjs/platform-express": "12.4.2",
+    "@nestjs/swagger": "12.1.1",
+    "@nestjs/throttler": "^6.7.1",
+    "@talkvyn/database": "workspace:*",
+    "@talkvyn/env": "workspace:*",
+    "helmet": "8.3.0",
+    "reflect-metadata": "0.2.2",
+    "rxjs": "7.8.2",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "@nestjs/cli": "12.0.12",
+    "@nestjs/schematics": "12.0.13",
+    "@nestjs/testing": "12.4.2",
+    "@types/express": "5.0.6",
+    "@types/node": "24.19.2",
+    "@types/supertest": "7.2.1",
+    "@vitest/coverage-v8": "5.1.0",
+    "oxlint-tsgolint": "7.0.2006",
+    "supertest": "7.3.2",
+    "typescript": "6.0.2",
+    "vite": "8.3.8",
+    "vitest": "5.1.0"
+  }
+}

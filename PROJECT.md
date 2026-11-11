@@ -18,16 +18,17 @@ Talkvyn is an open-source, self-hostable AI chat assistant for websites. Anyone 
 
 ```text
 apps/
+  api/                 NestJS HTTP API
   web/                 Website, admin experience, and/or embeddable chat
 packages/
   ui/                  Reusable interface components
   ai/                  Provider adapters, prompts, and response handling
   mcp/                 MCP server and business action tools
-  config/              Shared configuration and validation
+  env/                 Shared environment loading and validation
   ...                  Storage, auth, and other shared modules as needed
 ```
 
-Keep deployable applications in `apps/` and reusable modules in `packages/`. Turborepo runs package scripts such as `build`, `dev`, `lint`, and `check-types` across the workspace.
+Keep deployable applications in `apps/` and reusable modules in `packages/`. The NestJS API lives in `apps/api`; shared environment schemas and root `.env` loading live in `packages/env`. Its OpenAPI documentation is generated from the route and DTO metadata. Turborepo runs package scripts such as `build`, `dev`, `lint`, and `check-types` across the workspace.
 
 ## How a white-label installation should work
 
@@ -79,7 +80,7 @@ Requirements: Node.js and pnpm. The repository pins its package manager version 
 pnpm install
 ```
 
-Applications live under `apps/` and shared packages under `packages/`. Run the matching root command, for example `pnpm dev` or `pnpm build`, for workspace tasks. Add environment variable names and safe example values to an `.env.example`; never commit real credentials.
+Applications live under `apps/` and shared packages under `packages/`. Run the matching root command, for example `pnpm dev` or `pnpm build`, for workspace tasks. Keep one root `.env` for local configuration; document names and safe example values in the root `.env.example`, and never commit real credentials.
 
 ## Contribution direction
 

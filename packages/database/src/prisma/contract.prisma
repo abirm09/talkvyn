@@ -1,0 +1,85 @@
+// use prisma-8
+
+// Generated from src/prisma/schema/*.prisma. Edit the source files instead.
+
+// File: src/prisma/schema/identity.prisma
+
+enum staff_status {
+  active
+  disabled
+}
+
+model staff {
+  id               Uuid                       @id @onCreate(uuid())
+  name             String
+  phone            String?
+  email_normalized String                     @unique
+  password_hash    String
+  role_id          Uuid
+  status           staff_status               @default(active)
+  last_login_at    TimestamptzString?
+  created_at       TimestamptzString          @default(now())
+  updated_at       DateTime(as: string) @onCreate(now()) @onUpdate(now())
+
+  role             roles                      @relation(fields: [role_id], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  sessions         staff_sessions[]
+
+  @@index([status])
+  @@index([role_id])
+}
+
+model staff_sessions {
+  id         Uuid                       @id @onCreate(uuid())
+  staff_id   Uuid
+  token_hash String                     @unique
+  expires_at TimestamptzString
+  revoked_at TimestamptzString?
+  ip_address Inet?
+  user_agent String?
+  created_at TimestamptzString          @default(now())
+  updated_at DateTime(as: string) @onCreate(now()) @onUpdate(now())
+
+  staff      staff                      @relation(fields: [staff_id], references: [id], onDelete: Cascade, onUpdate: Restrict)
+
+  @@index([staff_id, revoked_at])
+  @@index([expires_at])
+}
+
+model roles {
+  id          Uuid                       @id @onCreate(uuid())
+  name        String                     @unique
+  description String?
+  is_system   Boolean                    @default(false)
+  created_at  TimestamptzString          @default(now())
+  updated_at  DateTime(as: string) @onCreate(now()) @onUpdate(now())
+
+  staff       staff[]
+  permissions role_permissions[]
+}
+
+model permissions {
+  id          Uuid                       @id @onCreate(uuid())
+  resource    String
+  action      String
+  description String?
+  created_at  TimestamptzString          @default(now())
+  updated_at  DateTime(as: string) @onCreate(now()) @onUpdate(now())
+
+  roles       role_permissions[]
+
+  @@unique([resource, action])
+}
+
+model role_permissions {
+  id            Uuid                       @id @onCreate(uuid())
+  role_id       Uuid
+  permission_id Uuid
+  created_at    TimestamptzString          @default(now())
+
+  role          roles                      @relation(fields: [role_id], references: [id], onDelete: Cascade, onUpdate: Restrict)
+  permission    permissions                @relation(fields: [permission_id], references: [id], onDelete: Cascade, onUpdate: Restrict)
+
+  @@unique([role_id, permission_id])
+  @@index([permission_id])
+}
+

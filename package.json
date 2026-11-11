@@ -10,13 +10,17 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
-    "lint": "oxlint . --deny-warnings --no-error-on-unmatched-pattern",
+    "lint": "oxlint . --deny-warnings --no-error-on-unmatched-pattern && turbo run lint",
     "lint:fix": "oxlint . --fix --no-error-on-unmatched-pattern",
     "format": "prettier . --write",
     "format:check": "prettier . --check",
     "check-types": "turbo run check-types",
     "test": "turbo run test",
     "check": "pnpm format:check && pnpm lint && pnpm check-types && pnpm test && pnpm build",
+    "services:up": "docker compose -f compose.dev.yaml up -d",
+    "services:down": "docker compose -f compose.dev.yaml down",
+    "services:ps": "docker compose -f compose.dev.yaml ps",
+    "services:logs": "docker compose -f compose.dev.yaml logs -f",
     "clean": "turbo run clean && rm -rf node_modules .turbo",
     "prepare": "husky"
   },

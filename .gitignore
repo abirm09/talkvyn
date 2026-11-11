@@ -15,7 +15,9 @@ out/
 .env
 .env.*
 !.env.example
+!.env.*.example
 
 # Logs and local files
 *.log
+*.tsbuildinfo
 .DS_Store

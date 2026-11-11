@@ -1,3 +1,9 @@
 packages:
   - "apps/*"
   - "packages/*"
+# Do not run the install analytics script pulled in by Swagger UI.
+allowBuilds:
+  "@scarf/scarf": false
+  esbuild: true
+minimumReleaseAgeExclude:
+  - vite@8.3.8

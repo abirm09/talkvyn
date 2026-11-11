@@ -5,3 +5,7 @@ dist/
 build/
 out/
 pnpm-lock.yaml
+packages/database/src/prisma/contract.json
+packages/database/src/prisma/contract.d.ts
+packages/database/migrations/snapshots/**/contract.json
+packages/database/migrations/snapshots/**/contract.d.ts

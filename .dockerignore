@@ -1,0 +1,13 @@
+.git
+.github
+.husky/_
+node_modules
+**/node_modules
+.turbo
+**/dist
+**/coverage
+.env
+.env.*
+**/.env
+**/.env.*
+postman/skills

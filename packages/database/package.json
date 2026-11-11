@@ -1,0 +1,48 @@
+{
+  "name": "@talkvyn/database",
+  "version": "0.1.0",
+  "description": "Talkvyn's PostgreSQL database contract and Prisma client",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "files": [
+    "dist/**",
+    "src/prisma/**",
+    "prisma.config.ts"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./passwords": {
+      "types": "./dist/passwords.d.ts",
+      "import": "./dist/passwords.js"
+    }
+  },
+  "scripts": {
+    "build": "pnpm schema:stitch && prisma contract emit && tsc -p tsconfig.json && mkdir -p dist/prisma && cp src/prisma/contract.d.ts dist/prisma/contract.d.ts",
+    "check-types": "tsc --noEmit -p tsconfig.json",
+    "schema:stitch": "node scripts/stitch-schema.mjs",
+    "contract:emit": "pnpm schema:stitch && prisma contract emit",
+    "db:init": "pnpm contract:emit && prisma db init",
+    "db:update": "pnpm schema:stitch && prisma db update --advance-ref db",
+    "db:push": "pnpm db:update",
+    "db:migrate": "pnpm schema:stitch && prisma db migrate --advance-ref db",
+    "db:verify": "pnpm schema:stitch && prisma db verify",
+    "migration:plan": "pnpm schema:stitch && prisma migration plan",
+    "migration:check": "pnpm schema:stitch && prisma migration check",
+    "migration:status": "pnpm schema:stitch && prisma migration status",
+    "seed:staff": "pnpm build && node dist/seeds/staff-seed.js",
+    "clean": "rm -rf dist *.tsbuildinfo"
+  },
+  "dependencies": {
+    "@prisma/orm-postgres": "8.0.0-rc.23",
+    "dotenv": "18.0.10"
+  },
+  "devDependencies": {
+    "@types/node": "24.19.2",
+    "prisma": "8.0.0-rc.33",
+    "typescript": "6.0.2"
+  }
+}
