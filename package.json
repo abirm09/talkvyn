@@ -3,14 +3,35 @@
   "private": true,
   "license": "MIT",
   "packageManager": "pnpm@12.15.0",
+  "engines": {
+    "node": ">=24.0.0",
+    "pnpm": ">=12.0.0"
+  },
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
-    "lint": "turbo run lint",
+    "lint": "oxlint . --deny-warnings --no-error-on-unmatched-pattern",
+    "lint:fix": "oxlint . --fix --no-error-on-unmatched-pattern",
+    "format": "prettier . --write",
+    "format:check": "prettier . --check",
     "check-types": "turbo run check-types",
-    "clean": "turbo run clean && rm -rf node_modules .turbo"
+    "test": "turbo run test",
+    "check": "pnpm format:check && pnpm lint && pnpm check-types && pnpm test && pnpm build",
+    "clean": "turbo run clean && rm -rf node_modules .turbo",
+    "prepare": "husky"
   },
   "devDependencies": {
-    "turbo": "^2.6.3"
+    "husky": "9.1.7",
+    "lint-staged": "17.6.0",
+    "oxlint": "1.93.0",
+    "prettier": "3.9.10",
+    "turbo": "2.11.10"
+  },
+  "lint-staged": {
+    "**/*.{js,jsx,ts,tsx,mjs,cjs,mts,cts}": [
+      "oxlint --fix",
+      "prettier --write"
+    ],
+    "**/*.{json,jsonc,json5,md,mdx,yaml,yml,css,scss,html,htm,svg}": "prettier --write"
   }
 }
