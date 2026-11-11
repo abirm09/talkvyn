@@ -13,9 +13,20 @@ Read [PROJECT.md](PROJECT.md) for the product direction, architecture, roadmap, 
 
 ```sh
 pnpm install
+pnpm dev
 ```
 
-Add applications under `apps/` and shared packages under `packages/`. Root task scripts run workspace tasks through Turborepo. This starter has no application yet, so there is no product to run until one is added.
+Add applications under `apps/` and shared packages under `packages/`. Root task scripts run workspace tasks through Turborepo for packages that define them.
+
+## Code quality
+
+```sh
+pnpm lint
+pnpm format
+pnpm check
+```
+
+Oxlint checks JavaScript and TypeScript, and Prettier formats supported project files. Husky runs lint-staged on staged files before each commit and runs the full check pipeline before each push.
 
 ## License
 
